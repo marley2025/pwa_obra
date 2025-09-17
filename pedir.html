@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Site App – Request Material</title>
+  <link rel="stylesheet" href="assets/styles.css"/>
+  <script defer src="assets/config.js"></script>
+  <script defer src="assets/api.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Request Material</h2>
+    <div class="nav">
+      <a href="index.html">Check</a>
+      <a href="pedir.html">Request Material</a>
+      <a href="owner.html">Owner Panel</a>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div class="col">
+          <label>Employee ID</label><input id="emp"/>
+        </div>
+        <div class="col">
+          <label>Project ID</label><input id="proj"/>
+        </div>
+      </div>
+      <div class="small">Quick picks:</div>
+      <div class="nav">
+        <a href="#" onclick="setProd('cement 25kg');return false;">Cement 25kg</a>
+        <a href="#" onclick="setProd('rebar 10mm 12m');return false;">Rebar 10mm</a>
+        <a href="#" onclick="setProd('gypsum board 1/2 1.22x2.44m');return false;">Gypsum 1/2</a>
+      </div>
+      <hr/>
+      <label>Product</label><input id="product"/>
+      <div class="row">
+        <div class="col">
+          <label>Qty</label><input id="qty" value="10"/>
+        </div>
+        <div class="col">
+          <label>UoM</label>
+          <select id="uom">
+            <option value="pack">pack</option>
+            <option value="kg">kg</option>
+            <option value="m">m</option>
+            <option value="m2">m²</option>
+            <option value="m3">m³</option>
+            <option value="piece">piece</option>
+          </select>
+        </div>
+      </div>
+      <label>Urgency</label>
+      <select id="urg">
+        <option value="today">Today</option>
+        <option value="24h">24h</option>
+        <option value="48h">48h</option>
+        <option value="scheduled">Scheduled</option>
+      </select>
+      <label>Note (optional)</label>
+      <input id="note" placeholder="Add a short note"/>
+      <button class="btn btn-blue" onclick="send()">Send Request</button>
+      <div id="msg" class="small"></div>
+    </div>
+  </div>
+  <script>
+    function setProd(v){ document.getElementById('product').value = v; }
+    async function send(){
+      const body = {
+        employee_id: parseInt(document.getElementById('emp').value||0),
+        project_id: parseInt(document.getElementById('proj').value||0),
+        product_name: document.getElementById('product').value,
+        qty: parseFloat(document.getElementById('qty').value||0),
+        uom: document.getElementById('uom').value,
+        urgency: document.getElementById('urg').value,
+        note: document.getElementById('note').value
+      };
+      try{
+        const data = await createMaterialRequest(body);
+        document.getElementById('msg').textContent = data.ok ? ('✔️ Sent: '+data.name) : '⚠️ Error';
+      }catch(e){
+        document.getElementById('msg').textContent = '⚠️ '+e.message;
+      }
+    }
+  </script>
+</body>
+</html>

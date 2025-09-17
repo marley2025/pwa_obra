@@ -1,0 +1,22 @@
+:root { --green:#1e9c4b; --red:#d64545; --blue:#2c7be5; --bg:#f7f7f7; --fg:#222; }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;background:var(--bg);color:var(--fg)}
+.container{max-width:720px;margin:0 auto;padding:16px}
+h1,h2{margin:0 0 12px}
+.card{background:#fff;border:1px solid #eee;border-radius:12px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,0.04);margin:12px 0}
+label{display:block;font-size:14px;margin:8px 0 4px;color:#555}
+input,select{width:100%;padding:12px 14px;font-size:16px;border:1px solid #ddd;border-radius:10px;background:#fff}
+.btn{display:block;width:100%;padding:16px;font-size:18px;border:none;border-radius:12px;color:#fff;margin:10px 0;cursor:pointer}
+.btn-green{background:var(--green)}
+.btn-red{background:var(--red)}
+.btn-blue{background:var(--blue)}
+.row{display:flex;gap:10px}
+.row .col{flex:1}
+.small{font-size:13px;color:#666}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 0}
+.nav a{display:inline-block;padding:8px 12px;border-radius:10px;border:1px solid #ddd;background:#fff;color:#333;text-decoration:none}
+.badge{display:inline-block;padding:2px 10px;border-radius:999px;border:1px solid #ddd;background:#fafafa;font-size:12px}
+.list{display:grid;gap:12px}
+pre{background:#f9fafb;border:1px solid #eee;border-radius:10px;padding:12px;overflow:auto}
+hr{border:none;border-top:1px solid #eee;margin:16px 0}

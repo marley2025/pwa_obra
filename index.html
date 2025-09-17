@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Site App – Check In/Out</title>
+  <link rel="manifest" href="/manifest.json"/>
+  <link rel="stylesheet" href="/assets/styles.css"/>
+  <script defer src="/assets/pwa.js"></script>
+  <script defer src="/assets/config.js"></script>
+  <script defer src="/assets/api.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Check In/Out</h2>
+    <div class="nav">
+      <a href="index.html">Check</a>
+      <a href="pedir.html">Request Material</a>
+      <a href="owner.html">Owner Panel</a>
+    </div>
+    <div class="card">
+      <div class="row">
+        <div class="col">
+          <label>Employee ID</label>
+          <input id="emp" placeholder="e.g. 7"/>
+        </div>
+        <div class="col">
+          <label>Project ID</label>
+          <input id="proj" placeholder="e.g. 12"/>
+        </div>
+      </div>
+      <button class="btn btn-green" id="btn-in">✔️ Check In</button>
+      <button class="btn btn-red" id="btn-out">⬅️ Check Out</button>
+      <div id="msg" class="small"></div>
+    </div>
+    <p class="small">Tip: Allow location on your phone. If accuracy is low, step outside for better GPS.</p>
+  </div>
+  <script>
+  function doGeo(action){
+    const employee_id = parseInt(document.getElementById('emp').value||0);
+    const project_id = parseInt(document.getElementById('proj').value||0);
+    if(!employee_id || !project_id){ alert('Fill Employee and Project'); return; }
+    if(!navigator.geolocation){ alert('Enable location'); return; }
+    navigator.geolocation.getCurrentPosition(async (pos)=>{
+      const payload = {
+        employee_id, project_id, action,
+        lat: pos.coords.latitude, lon: pos.coords.longitude,
+        accuracy_m: pos.coords.accuracy
+      };
+      try{
+        const res = await geoCheck(payload);
+        document.getElementById('msg').textContent = res.ok ? '✔️ Recorded' : ('⚠️ '+(res.reason||'Error'));
+      }catch(e){
+        document.getElementById('msg').textContent = '⚠️ '+e.message;
+      }
+    }, (err)=> alert('Location error: '+err.message), {enableHighAccuracy:true,timeout:15000,maximumAge:0});
+  }
+  document.getElementById('btn-in').onclick = ()=>doGeo('check_in');
+  document.getElementById('btn-out').onclick = ()=>doGeo('check_out');
+  </script>
+</body>
+</html>
