@@ -1,11 +1,24 @@
-version: "3.9"
+# version: "3.9"
+# services:
+#   pwa:
+#     image: nginx:alpine
+#     container_name: pwa-obra
+#     ports:
+#       - "5500:80"
+#     restart: unless-stopped
+#     volumes:
+#       - ./:/usr/share/nginx/html:ro
+#       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+
+
 services:
-  pwa:
-    image: nginx:alpine
+  web:
+    build: .
+    image: pwa-obra:latest
     container_name: pwa-obra
     ports:
       - "5500:80"
     restart: unless-stopped
     volumes:
-      - ./:/usr/share/nginx/html:ro
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+       - ./:/usr/share/nginx/html:ro
+       - ./nginx.conf:/etc/nginx/nginx.conf:ro
